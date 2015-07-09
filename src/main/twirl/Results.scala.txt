@@ -1,0 +1,146 @@
+    @for(status <- Seq(
+      Status("ok", "OK", 200, "OK"),
+      Status("created", "CREATED", 201, "Created"),
+      Status("badRequest", "BAD_REQUEST", 400, "Bad Request"),
+      Status("unauthorized", "UNAUTHORIZED", 401, "Unauthorized"),
+      Status("paymentRequired", "PAYMENT_REQUIRED", 402, "Payment Required"),
+      Status("forbidden", "FORBIDDEN", 403, "Forbidden"),
+      Status("notFound", "NOT_FOUND", 404, "Not Found"),
+      Status("internalServerError", "INTERNAL_SERVER_ERROR", 500, "Internal Server Error")
+    )) {
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static StatusHeader @{status.method}() @ob
+        return new StatusHeader(@{status.constant});
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(Content content) @ob
+        return status(@{status.constant}, content);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(Content content, String charset) @ob
+        return status(@{status.constant}, content, charset);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(String content) @ob
+        return status(@{status.constant}, content);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(String content, String charset) @ob
+        return status(@{status.constant}, content, charset);
+    @cb
+
+    /**
+     * Generates a 200 OK simple result.
+     */
+    public static Result @{status.method}(JsonNode content) @ob
+        return status(@{status.constant}, content);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(JsonNode content, String charset) @ob
+        return status(@{status.constant}, content, charset);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(byte[] content) @ob
+        return status(@{status.constant}, content);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(InputStream content) @ob
+        return status(@{status.constant}, content);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     */
+    public static Result @{status.method}(InputStream content, int chunkSize) @ob
+        return status(@{status.constant}, content, chunkSize);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content The file to send.
+     */
+    public static Result @{status.method}(File content) @ob
+        return status(@{status.constant}, content);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content The file to send.
+     * @@param inline Whether the file should be sent inline, or as an attachment.
+     */
+    public static Result @{status.method}(File content, boolean inline) @ob
+        return status(@{status.constant}, content, inline);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content The file to send.
+     * @@param filename The name to send the file as.
+     */
+    public static Result @{status.method}(File content, String filename) @ob
+        return status(@{status.constant}, content, filename);
+    @cb
+
+    /**
+     * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@deprecated Use @ob@@link #@{status.method} @cb with @ob@@link StatusHeader#chunked(akka.stream.javadsl.Source) @cb
+     * instead.
+     */
+    @@Deprecated
+    public static Result @{status.method}(Chunks<?> chunks) @ob
+        return status(@{status.constant}, chunks);
+    @cb
+    }
+    @for(redirect <- Seq(
+      Status("movedPermanently", "MOVED_PERMANENTLY", 301, "Moved Permanently"),
+      Status("found", "FOUND", 302, "Found"),
+      Status("seeOther", "SEE_OTHER", 303, "See Other"),
+      Status("redirect", "SEE_OTHER", 303, "See Other"),
+      Status("temporaryRedirect", "TEMPORARY_REDIRECT", 307, "Temporary Redirect")
+    )) {
+    /**
+     * Generates a @redirect.code @redirect.reasonPhrase result.
+     *
+     * @@param url The url to redirect.
+     */
+    public static Result @{redirect.method}(String url) @ob
+        return new Result(@redirect.constant, Collections.singletonMap(LOCATION, url));
+    @cb
+
+    /**
+     * Generates a @redirect.code @redirect.reasonPhrase result.
+     *
+     * @@param call Call defining the url to redirect (typically comes from reverse router).
+     */
+    public static Result @{redirect.method}(Call call) @ob
+        return new Result(@redirect.constant, Collections.singletonMap(LOCATION, call.url()));
+    @cb
+    }
