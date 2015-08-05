@@ -8,7 +8,6 @@
       Status("notFound", "NOT_FOUND", 404, "Not Found"),
       Status("internalServerError", "INTERNAL_SERVER_ERROR", 500, "Internal Server Error")
     )) {
-
     /**
      * Generates a @status.code @status.reasonPhrase result.
      */
@@ -45,7 +44,7 @@
     @cb
 
     /**
-     * Generates a 200 OK simple result.
+     * Generates a $status.code @status.reasonPhrase result.
      */
     public static Result @{status.method}(JsonNode content) @ob
         return status(@{status.constant}, content);
@@ -75,8 +74,8 @@
     /**
      * Generates a @status.code @status.reasonPhrase result.
      */
-    public static Result @{status.method}(InputStream content, int chunkSize) @ob
-        return status(@{status.constant}, content, chunkSize);
+    public static Result @{status.method}(InputStream content, long contentLength) @ob
+        return status(@{status.constant}, content, contentLength);
     @cb
 
     /**
@@ -118,8 +117,7 @@
     public static Result @{status.method}(Chunks<?> chunks) @ob
         return status(@{status.constant}, chunks);
     @cb
-    }
-    @for(redirect <- Seq(
+    }@for(redirect <- Seq(
       Status("movedPermanently", "MOVED_PERMANENTLY", 301, "Moved Permanently"),
       Status("found", "FOUND", 302, "Found"),
       Status("seeOther", "SEE_OTHER", 303, "See Other"),
