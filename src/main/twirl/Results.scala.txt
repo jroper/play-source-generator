@@ -8,8 +8,11 @@
       Status("notFound", "NOT_FOUND", 404, "Not Found"),
       Status("internalServerError", "INTERNAL_SERVER_ERROR", 500, "Internal Server Error")
     )) {
+
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@return the result
      */
     public static StatusHeader @{status.method}() @ob
         return new StatusHeader(@{status.constant});
@@ -17,6 +20,9 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the HTTP response body
+     * @@return the result
      */
     public static Result @{status.method}(Content content) @ob
         return status(@{status.constant}, content);
@@ -24,6 +30,10 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the HTTP response body
+     * @@param charset the charset into which the content should be encoded (e.g. "UTF-8")
+     * @@return the result
      */
     public static Result @{status.method}(Content content, String charset) @ob
         return status(@{status.constant}, content, charset);
@@ -31,6 +41,9 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content HTTP response body, encoded as a UTF-8 string
+     * @@return the result
      */
     public static Result @{status.method}(String content) @ob
         return status(@{status.constant}, content);
@@ -38,13 +51,21 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the HTTP response body
+     * @@param charset the charset into which the content should be encoded (e.g. "UTF-8")
+     * @@return the result
      */
     public static Result @{status.method}(String content, String charset) @ob
         return status(@{status.constant}, content, charset);
     @cb
 
     /**
-     * Generates a $status.code @status.reasonPhrase result.
+     * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the result's body content as a play-json object. It will be encoded
+     *        as a UTF-8 string.
+     * @@return the result
      */
     public static Result @{status.method}(JsonNode content) @ob
         return status(@{status.constant}, content);
@@ -52,6 +73,10 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the result's body content as a play-json object
+     * @@param charset the charset into which the json should be encoded
+     * @@return the result
      */
     public static Result @{status.method}(JsonNode content, String charset) @ob
         return status(@{status.constant}, content, charset);
@@ -59,6 +84,9 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the result's body content
+     * @@return the result
      */
     public static Result @{status.method}(byte[] content) @ob
         return status(@{status.constant}, content);
@@ -66,6 +94,9 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the input stream containing data to chunk over
+     * @@return the result
      */
     public static Result @{status.method}(InputStream content) @ob
         return status(@{status.constant}, content);
@@ -73,6 +104,10 @@
 
     /**
      * Generates a @status.code @status.reasonPhrase result.
+     *
+     * @@param content the input stream containing data to chunk over
+     * @@param contentLength the length of the provided content in bytes.
+     * @@return the result
      */
     public static Result @{status.method}(InputStream content, long contentLength) @ob
         return status(@{status.constant}, content, contentLength);
@@ -82,6 +117,7 @@
      * Generates a @status.code @status.reasonPhrase result.
      *
      * @@param content The file to send.
+     * @@return the result
      */
     public static Result @{status.method}(File content) @ob
         return status(@{status.constant}, content);
@@ -92,6 +128,7 @@
      *
      * @@param content The file to send.
      * @@param inline Whether the file should be sent inline, or as an attachment.
+     * @@return the result
      */
     public static Result @{status.method}(File content, boolean inline) @ob
         return status(@{status.constant}, content, inline);
@@ -102,6 +139,7 @@
      *
      * @@param content The file to send.
      * @@param filename The name to send the file as.
+     * @@return the result
      */
     public static Result @{status.method}(File content, String filename) @ob
         return status(@{status.constant}, content, filename);
@@ -112,6 +150,8 @@
      *
      * @@deprecated Use @ob@@link #@{status.method} @cb with @ob@@link StatusHeader#chunked(akka.stream.javadsl.Source) @cb
      * instead.
+     * @@param chunks Deprecated
+     * @@return Deprecated
      */
     @@Deprecated
     public static Result @{status.method}(Chunks<?> chunks) @ob
@@ -128,6 +168,7 @@
      * Generates a @redirect.code @redirect.reasonPhrase result.
      *
      * @@param url The url to redirect.
+     * @@return the result
      */
     public static Result @{redirect.method}(String url) @ob
         return new Result(@redirect.constant, Collections.singletonMap(LOCATION, url));
@@ -137,6 +178,7 @@
      * Generates a @redirect.code @redirect.reasonPhrase result.
      *
      * @@param call Call defining the url to redirect (typically comes from reverse router).
+     * @@return the result
      */
     public static Result @{redirect.method}(Call call) @ob
         return new Result(@redirect.constant, Collections.singletonMap(LOCATION, call.url()));
