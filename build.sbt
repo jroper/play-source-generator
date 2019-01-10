@@ -11,7 +11,7 @@ TaskKey[Unit]("generateSources") := {
   IO.delete(outdir)
 
   // Find the templates
-  val templates = (sources in (Compile, TwirlKeys.compileTemplates)).value pair relativeTo((sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value)
+  val templates = (sources in (Compile, TwirlKeys.compileTemplates)).value pair Path.relativeTo((sourceDirectories in (Compile, TwirlKeys.compileTemplates)).value)
 
   val templateClasses = templates.map {
     case(_, name) =>
@@ -20,5 +20,6 @@ TaskKey[Unit]("generateSources") := {
       val Array(clazz, _, t) = fileName.split('.')
       (splitted.dropRight(1) ++ Seq(t, clazz)).mkString(".")
   }
-  toError(scalaRun.run("SourcesGenerator", Attributed.data(classpath), Seq(outdir.getAbsolutePath) ++ templateClasses, log))
+
+  scalaRun.run("SourcesGenerator", Attributed.data(classpath), Seq(outdir.getAbsolutePath) ++ templateClasses, log).failed foreach (sys error _.getMessage)
 }
