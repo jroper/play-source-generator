@@ -1,144 +1,331 @@
-    @for(status <- Seq(
-      Status("ok", "OK", 200, "OK"),
-      Status("created", "CREATED", 201, "Created"),
-      Status("badRequest", "BAD_REQUEST", 400, "Bad Request"),
-      Status("unauthorized", "UNAUTHORIZED", 401, "Unauthorized"),
-      Status("paymentRequired", "PAYMENT_REQUIRED", 402, "Payment Required"),
-      Status("forbidden", "FORBIDDEN", 403, "Forbidden"),
-      Status("notFound", "NOT_FOUND", 404, "Not Found"),
-      Status("internalServerError", "INTERNAL_SERVER_ERROR", 500, "Internal Server Error")
-    )) {
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static StatusHeader @{status.method}() @ob
-        return new StatusHeader(@{status.constant});
-    @cb
+@for(status <- Seq(
+  Status("ok", "OK", 200, "OK"),
+  Status("created", "CREATED", 201, "Created"),
+  Status("badRequest", "BAD_REQUEST", 400, "Bad Request"),
+  Status("unauthorized", "UNAUTHORIZED", 401, "Unauthorized"),
+  Status("paymentRequired", "PAYMENT_REQUIRED", 402, "Payment Required"),
+  Status("forbidden", "FORBIDDEN", 403, "Forbidden"),
+  Status("notFound", "NOT_FOUND", 404, "Not Found"),
+  Status("notAcceptable", "NOT_ACCEPTABLE", 406, "Not Acceptable"),
+  Status("unsupportedMediaType", "UNSUPPORTED_MEDIA_TYPE", 415, "Unsupported Media Type"),
+  Status("preconditionRequired", "PRECONDITION_REQUIRED", 428, "Precondition Required"),
+  Status("tooManyRequests", "TOO_MANY_REQUESTS", 429, "Too Many Requests"),
+  Status("requestHeaderFieldsTooLarge", "REQUEST_HEADER_FIELDS_TOO_LARGE", 431, "Request Header Fields Too Large"),
+  Status("internalServerError", "INTERNAL_SERVER_ERROR", 500, "Internal Server Error"),
+  Status("networkAuthenticationRequired", "NETWORK_AUTHENTICATION_REQUIRED", 511, "Network Authentication Required"),
+)) {
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@return the result
+   */
+  public static StatusHeader @{status.method}() @ob
+    return new StatusHeader(@{status.constant});
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(Content content) @ob
-        return status(@{status.constant}, content);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the HTTP response body
+   * @@return the result
+   */
+  public static Result @{status.method}(Content content) @ob
+    return status(@{status.constant}, content);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(Content content, String charset) @ob
-        return status(@{status.constant}, content, charset);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the HTTP response body
+   * @@param charset the charset into which the content should be encoded (e.g. "UTF-8")
+   * @@return the result
+   */
+  public static Result @{status.method}(Content content, String charset) @ob
+    return status(@{status.constant}, content, charset);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(String content) @ob
-        return status(@{status.constant}, content);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content HTTP response body, encoded as a UTF-8 string
+   * @@return the result
+   */
+  public static Result @{status.method}(String content) @ob
+    return status(@{status.constant}, content);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(String content, String charset) @ob
-        return status(@{status.constant}, content, charset);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the HTTP response body
+   * @@param charset the charset into which the content should be encoded (e.g. "UTF-8")
+   * @@return the result
+   */
+  public static Result @{status.method}(String content, String charset) @ob
+    return status(@{status.constant}, content, charset);
+  @cb
 
-    /**
-     * Generates a $status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(JsonNode content) @ob
-        return status(@{status.constant}, content);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the result's body content as a play-json object. It will be encoded as a UTF-8
+   *     string.
+   * @@return the result
+   */
+  public static Result @{status.method}(JsonNode content) @ob
+    return status(@{status.constant}, content);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(JsonNode content, String charset) @ob
-        return status(@{status.constant}, content, charset);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the result's body content as a play-json object
+   * @@param encoding the encoding into which the json should be encoded
+   * @@return the result
+   */
+  public static Result @{status.method}(JsonNode content, JsonEncoding encoding) @ob
+    return status(@{status.constant}, content, encoding);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(byte[] content) @ob
-        return status(@{status.constant}, content);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the result's body content
+   * @@return the result
+   */
+  public static Result @{status.method}(byte[] content) @ob
+    return status(@{status.constant}, content);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(InputStream content) @ob
-        return status(@{status.constant}, content);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the input stream containing data to chunk over
+   * @@return the result
+   */
+  public static Result @{status.method}(InputStream content) @ob
+    return status(@{status.constant}, content);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     */
-    public static Result @{status.method}(InputStream content, long contentLength) @ob
-        return status(@{status.constant}, content, contentLength);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content the input stream containing data to chunk over
+   * @@param contentLength the length of the provided content in bytes.
+   * @@return the result
+   */
+  public static Result @{status.method}(InputStream content, long contentLength) @ob
+    return status(@{status.constant}, content, contentLength);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     *
-     * @@param content The file to send.
-     */
-    public static Result @{status.method}(File content) @ob
-        return status(@{status.constant}, content);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content) @ob
+    return @{status.method}(content, StaticFileMimeTypes.fileMimeTypes());
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     *
-     * @@param content The file to send.
-     * @@param inline Whether the file should be sent inline, or as an attachment.
-     */
-    public static Result @{status.method}(File content, boolean inline) @ob
-        return status(@{status.constant}, content, inline);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, fileMimeTypes);
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     *
-     * @@param content The file to send.
-     * @@param filename The name to send the file as.
-     */
-    public static Result @{status.method}(File content, String filename) @ob
-        return status(@{status.constant}, content, filename);
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content, boolean inline) @ob
+    return @{status.method}(content, inline, StaticFileMimeTypes.fileMimeTypes());
+  @cb
 
-    /**
-     * Generates a @status.code @status.reasonPhrase result.
-     *
-     * @@deprecated Use @ob@@link #@{status.method} @cb with @ob@@link StatusHeader#chunked(akka.stream.javadsl.Source) @cb
-     * instead.
-     */
-    @@Deprecated
-    public static Result @{status.method}(Chunks<?> chunks) @ob
-        return status(@{status.constant}, chunks);
-    @cb
-    }@for(redirect <- Seq(
-      Status("movedPermanently", "MOVED_PERMANENTLY", 301, "Moved Permanently"),
-      Status("found", "FOUND", 302, "Found"),
-      Status("seeOther", "SEE_OTHER", 303, "See Other"),
-      Status("redirect", "SEE_OTHER", 303, "See Other"),
-      Status("temporaryRedirect", "TEMPORARY_REDIRECT", 307, "Temporary Redirect")
-    )) {
-    /**
-     * Generates a @redirect.code @redirect.reasonPhrase result.
-     *
-     * @@param url The url to redirect.
-     */
-    public static Result @{redirect.method}(String url) @ob
-        return new Result(@redirect.constant, Collections.singletonMap(LOCATION, url));
-    @cb
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content, boolean inline, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, inline, fileMimeTypes);
+  @cb
 
-    /**
-     * Generates a @redirect.code @redirect.reasonPhrase result.
-     *
-     * @@param call Call defining the url to redirect (typically comes from reverse router).
-     */
-    public static Result @{redirect.method}(Call call) @ob
-        return new Result(@redirect.constant, Collections.singletonMap(LOCATION, call.url()));
-    @cb
-    }
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@param filename The name to send the file as.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content, String filename) @ob
+    return @{status.method}(content, filename, StaticFileMimeTypes.fileMimeTypes());
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@param filename The name to send the file as.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content, String filename, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, filename, fileMimeTypes);
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@param filename The name to send the file as.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content, boolean inline, String filename) @ob
+    return status(@{status.constant}, content, inline, filename);
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The file to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@param filename The name to send the file as.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(File content, boolean inline, String filename, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, inline, filename, fileMimeTypes);
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content) @ob
+    return @{status.method}(content, StaticFileMimeTypes.fileMimeTypes());
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, fileMimeTypes);
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content, boolean inline) @ob
+    return @{status.method}(content, inline, StaticFileMimeTypes.fileMimeTypes());
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content, boolean inline, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, inline, fileMimeTypes);
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@param filename The name to send the file as.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content, String filename) @ob
+    return @{status.method}(content, filename, StaticFileMimeTypes.fileMimeTypes());
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@param filename The name to send the file as.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content, String filename, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, filename, fileMimeTypes);
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@param filename The name to send the file as.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content, boolean inline, String filename) @ob
+    return status(@{status.constant}, content, inline, filename);
+  @cb
+
+  /**
+   * Generates a @status.code @status.reasonPhrase result.
+   *
+   * @@param content The path to send.
+   * @@param inline Whether the file should be sent inline, or as an attachment.
+   * @@param filename The name to send the file as.
+   * @@param fileMimeTypes Used for file type mapping.
+   * @@return the result
+   */
+  public static Result @{status.method}(Path content, boolean inline, String filename, FileMimeTypes fileMimeTypes) @ob
+    return status(@{status.constant}, content, inline, filename, fileMimeTypes);
+  @cb
+}@for(redirect <- Seq(
+  Status("movedPermanently", "MOVED_PERMANENTLY", 301, "Moved Permanently"),
+  Status("found", "FOUND", 302, "Found"),
+  Status("seeOther", "SEE_OTHER", 303, "See Other"),
+  Status("redirect", "SEE_OTHER", 303, "See Other"),
+  Status("temporaryRedirect", "TEMPORARY_REDIRECT", 307, "Temporary Redirect"),
+  Status("permanentRedirect", "PERMANENT_REDIRECT", 308, "Permanent Redirect")
+)) {
+  /**
+   * Generates a @redirect.code @redirect.reasonPhrase result.
+   *
+   * @@param url The url to redirect.
+   * @@return the result
+   */
+  public static Result @{redirect.method}(String url) @ob
+    return new Result(@redirect.constant, Collections.singletonMap(LOCATION, url));
+  @cb
+
+  /**
+   * Generates a @redirect.code @redirect.reasonPhrase result.
+   *
+   * @@param call Call defining the url to redirect (typically comes from reverse router).
+   * @@return the result
+   */
+  public static Result @{redirect.method}(Call call) @ob
+    return new Result(@redirect.constant, Collections.singletonMap(LOCATION, call.path()));
+  @cb
+}
